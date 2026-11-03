@@ -1,33 +1,92 @@
-HELP.md
+
+# ==========================================
+# SPRING BOOT + MAVEN + ECLIPSE
+# ==========================================
+
+# Maven - build
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+**/target/
+*.class
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
+# Maven Wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
 .project
-.settings
+.classpath
+.settings/
+.metadata/
+.recommenders/
+.factorypath
 .springBeans
-.sts4-cache
+.sts4-cache/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
+# Spring Tool Suite
+.apt_generated/
+.apt_generated_tests/
+.springBeans
+.sts4-cache/
+
+# IntelliJ IDEA (eventuale)
+.idea/
 *.iml
 *.ipr
+*.iws
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# Visual Studio Code
 .vscode/
+
+# Log
+*.log
+logs/
+log/
+*.log.*
+hs_err_pid*
+replay_pid*
+
+# File temporanei
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Configurazioni locali Spring Boot
+application-local.properties
+application-local.yml
+application-local.yaml
+application-secret.properties
+
+# File di ambiente
+.env
+.env.*
+!.env.example
+
+# Certificati e chiavi private
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+
+# File generati
+bin/
+out/
+build/
+
+# Coverage
+coverage/
+jacoco.exec
+*.exec
+
+# Database locali
+*.db
+*.sqlite
+*.sqlite3
+
+# File di backup
+*.backup
+*.dump
