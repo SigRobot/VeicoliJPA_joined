@@ -1,51 +1,33 @@
 package com.betacom.veicoliJPA_joined.dto.input;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Create;
+import com.betacom.veicoliJPA_joined.models.TipoForcella;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+// i campi comuni (id, modello, anno, ruote, marca, ...) sono in VeicoloReq
 @Getter
 @Setter
-@ToString
-public class MotoReq {
+@ToString(callSuper = true)
+public class MotoReq extends VeicoloReq {
 
-	@NotNull(message = "id.obbligatorio", groups = OnUpdate.class)
-	private Integer id;               
+	// enum: un valore non valido nel JSON viene gestito da ExceptionManager (json.non.valido)
+	private TipoForcella tipoForcella;
 
-	@NotBlank(message = "modello.obbligatorio", groups = OnCreate.class)
-	@Size(max = 50, message = "modello.troppo.lungo", groups = { OnCreate.class, OnUpdate.class })
-	private String modello;
-
-	@Min(value = 1900, message = "anno.non.valido", groups = { OnCreate.class, OnUpdate.class })
-	@Max(value = 2100, message = "anno.non.valido", groups = { OnCreate.class, OnUpdate.class })
-	private Integer anno;
-
-	@Min(value = 2, message = "ruote.non.valide", groups = { OnCreate.class, OnUpdate.class })
-	@Max(value = 3, message = "ruote.non.valide", groups = { OnCreate.class, OnUpdate.class })
-	private Integer ruote;            
-
-	@NotNull(message = "marca.obbligatoria", groups = OnCreate.class)
-	private Integer marcaId;
-
-	private Integer coloreId;         
-
-	@NotNull(message = "alimentazione.obbligatoria", groups = OnCreate.class)
-	private Integer alimentazioneId;
-
-	@NotNull(message = "categoria.obbligatoria", groups = OnCreate.class)
-	private Integer categoriaId;
-
-	@Pattern(regexp = "(?i)TELESCOPICA|UPSIDE_DOWN|RIGIDA", message = "tipo.forcella.non.valido",
-			groups = { OnCreate.class, OnUpdate.class })
-	private String tipoForcella;      
-
-	@NotBlank(message = "targa.obbligatoria", groups = OnCreate.class)
-	@Size(max = 10, message = "targa.troppo.lunga", groups = { OnCreate.class, OnUpdate.class })
+	@NotBlank(groups = Create.class, message = "veicolo.targa.obbligatoria")
+	@Size(max = 10, message = "veicolo.targa.troppo.lunga")
 	private String targa;
+
+	// vincolo stretto sulle ruote (il campo è in VeicoloReq): una moto ne ha 2 o 3
+	@JsonIgnore
+	@AssertTrue(message = "veicolo.ruote.nonvalide")
+	public boolean isRuoteValide() {
+		return getRuote() == null || (getRuote() >= 2 && getRuote() <= 3);
+	}
 }
