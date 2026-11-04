@@ -19,7 +19,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "veicolo")
 @Inheritance(strategy = InheritanceType.JOINED)
