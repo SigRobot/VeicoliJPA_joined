@@ -10,3 +10,7 @@ public interface IVeicoloRepository extends JpaRepository<Veicolo, Integer> {
 
 	boolean existsByMarcaId(Integer marcaId);
 }
+public interface IVeicoloRepository extends JpaRepository<Veicolo, Integer>, JpaSpecificationExecutor<Veicolo> {
+
+	boolean existsByColoreId(Integer coloreId);
+}
