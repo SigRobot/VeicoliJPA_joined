@@ -1,8 +1,14 @@
 package com.betacom.veicoliJPA_joined.dto.input;
 
-import org.antlr.v4.runtime.misc.NotNull;
+
 import org.hibernate.sql.Update;
 
+import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Create;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
