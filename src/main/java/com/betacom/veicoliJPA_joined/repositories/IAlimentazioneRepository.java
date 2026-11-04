@@ -1,9 +1,12 @@
 package com.betacom.veicoliJPA_joined.repositories;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.betacom.veicoliJPA_joined.models.Alimentazione;
 
 public interface IAlimentazioneRepository extends JpaRepository<Alimentazione, Integer> {
 
+	Optional<Alimentazione> findByDescrizioneIgnoreCase(String descrizione);
 }

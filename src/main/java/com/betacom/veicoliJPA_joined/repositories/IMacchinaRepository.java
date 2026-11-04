@@ -10,4 +10,6 @@ public interface IMacchinaRepository extends JpaRepository<Macchina, Integer>{
 	boolean existsByTarga(String targa);
 	
 
+	boolean existsByTarga(String targa);
+
 }
