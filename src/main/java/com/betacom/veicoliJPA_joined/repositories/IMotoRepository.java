@@ -11,6 +11,6 @@ import com.betacom.veicoliJPA_joined.models.Moto;
 public interface IMotoRepository extends JpaRepository<Moto, Integer> {
 
 	Optional<Moto> findByTarga(String targa);
-
+	
 	boolean existsByTarga(String targa);
 }

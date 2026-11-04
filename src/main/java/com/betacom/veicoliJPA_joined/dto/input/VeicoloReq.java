@@ -1,7 +1,9 @@
 package com.betacom.veicoliJPA_joined.dto.input;
 
+
+import org.hibernate.sql.Update;
+
 import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Create;
-import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Update;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
