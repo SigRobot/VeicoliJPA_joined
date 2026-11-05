@@ -10,17 +10,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+@Entity
+@Table(name = "categoria")
 @Getter
 @Setter
 @ToString
-@Entity
-@Table(name = "categoria")
 public class Categoria {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(length = 50, nullable = false, unique = true)
-	private String descrizione;
+    @Column(name = "descrizione", nullable = false, unique = true, length = 50)
+    private String descrizione;
+    
 }
