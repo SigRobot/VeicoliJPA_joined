@@ -2,9 +2,6 @@ package com.betacom.veicoliJPA_joined.services.implementations;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,19 +28,22 @@ import com.betacom.veicoliJPA_joined.repositories.IVeicoloRepository;
 import com.betacom.veicoliJPA_joined.services.interfaces.IVeicoloServices;
 import com.betacom.veicoliJPA_joined.specifications.VeicoloSpecs;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@RequiredArgsConstructor
+@Slf4j
 @Service
-public class VeicoloImpl implements IVeicoloServices {
+public class VeicoloServices implements IVeicoloServices {
 
-	private Logger log = LoggerFactory.getLogger(VeicoloImpl.class);
-
-	@Autowired private IVeicoloRepository veicoloR;
-	@Autowired private IMacchinaRepository macchinaR;
-	@Autowired private IMotoRepository motoR;
+	private IVeicoloRepository veicoloR;
+	private IMacchinaRepository macchinaR;
+	private IMotoRepository motoR;
 	// lookup del gruppo: devono esporre findByDescrizioneIgnoreCase(...)
-	@Autowired private IMarcaRepository marcaR;
-	@Autowired private IColoreRepository coloreR;
-	@Autowired private IAlimentazioneRepository alimentazioneR;
-	@Autowired private ICategoriaRepository categoriaR;
+	private IMarcaRepository marcaR;
+	private IColoreRepository coloreR;
+	private IAlimentazioneRepository alimentazioneR;
+	private ICategoriaRepository categoriaR;
 
 	@Override
 	@Transactional
