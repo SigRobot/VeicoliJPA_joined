@@ -2,7 +2,6 @@ package com.betacom.veicoliJPA_joined.services.implementations;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,34 +28,37 @@ import com.betacom.veicoliJPA_joined.repositories.IVeicoloRepository;
 import com.betacom.veicoliJPA_joined.services.interfaces.IVeicoloServices;
 import com.betacom.veicoliJPA_joined.specifications.VeicoloSpecs;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class VeicoloServices implements IVeicoloServices {
 
 	
 
-	@Autowired private IVeicoloRepository veicoloR;
-	@Autowired private IMacchinaRepository macchinaR;
-	@Autowired private IMotoRepository motoR;
+	private final IVeicoloRepository veicoloR;
+	private final IMacchinaRepository macchinaR;
+	private final IMotoRepository motoR;
 	// lookup del gruppo: devono esporre findByDescrizioneIgnoreCase(...)
-	@Autowired private IMarcaRepository marcaR;
-	@Autowired private IColoreRepository coloreR;
-	@Autowired private IAlimentazioneRepository alimentazioneR;
-	@Autowired private ICategoriaRepository categoriaR;
+	private final IMarcaRepository marcaR;
+	private final IColoreRepository coloreR;
+	private final IAlimentazioneRepository alimentazioneR;
+	private final ICategoriaRepository categoriaR;
 
 	@Override
 	@Transactional
 	public VeicoloDTO createMacchina(MacchinaReq req) throws VeicoloException {
 		if (macchinaR.existsByTarga(req.getTarga())) {
-			throw new VeicoloException("veicolo.targa.duplicata");
+			throw new VeicoloException("targa.dup");
 		}
 		Macchina m = new Macchina();
 		resolveLookups(m, req);
+		if (req.getRuote()<4 && req.getRuote() > 6) throw new VeicoloException("ruote.auto.inv");
+		m.setRuote(req.getRuote());
 		m.setModello(req.getModello());
 		m.setAnno(req.getAnno());
-		m.setRuote(req.getRuote());
 		m.setPorte(req.getPorte());
 		m.setTarga(req.getTarga());
 		veicoloR.save(m);
@@ -67,10 +69,11 @@ public class VeicoloServices implements IVeicoloServices {
 	@Transactional
 	public VeicoloDTO createMoto(MotoReq req) throws VeicoloException {
 		if (motoR.existsByTarga(req.getTarga())) {
-			throw new VeicoloException("veicolo.targa.duplicata");
+			throw new VeicoloException("targa.dup");
 		}
 		Moto mo = new Moto();
 		resolveLookups(mo, req);
+		if (req.getRuote()<2 && req.getRuote() > 3) throw new VeicoloException("ruote.moto.inv");
 		mo.setModello(req.getModello());
 		mo.setAnno(req.getAnno());
 		mo.setRuote(req.getRuote());
@@ -85,6 +88,7 @@ public class VeicoloServices implements IVeicoloServices {
 	public VeicoloDTO createBici(BiciReq req) throws VeicoloException {
 		Bici bi = new Bici();
 		resolveLookups(bi, req);
+		if (!req.getRuote().equals(2)) throw new VeicoloException("ruote.bici.inv");
 		bi.setModello(req.getModello());
 		bi.setAnno(req.getAnno());
 		bi.setRuote(req.getRuote());
@@ -100,16 +104,17 @@ public class VeicoloServices implements IVeicoloServices {
 	@Transactional
 	public VeicoloDTO updateMacchina(MacchinaReq req) throws VeicoloException {
 		Veicolo v = veicoloR.findById(req.getId())
-				.orElseThrow(() -> new VeicoloException("veicolo.non.trovato"));
-		if (!(v instanceof Macchina m)) throw new VeicoloException("veicolo.tipo.errato");
+				.orElseThrow(() -> new VeicoloException("veic.notfound"));
+		if (!(v instanceof Macchina m)) throw new VeicoloException("veic.tipo.err");
 		resolveLookupsUpdate(m, req);
+		if (req.getRuote()<4 && req.getRuote() > 6) throw new VeicoloException("ruote.auto.inv");
 		if (req.getModello() != null) m.setModello(req.getModello());
 		if (req.getAnno() != null)    m.setAnno(req.getAnno());
 		if (req.getRuote() != null)   m.setRuote(req.getRuote());
 		if (req.getPorte() != null)   m.setPorte(req.getPorte());
 		if (req.getTarga() != null) {
 			if (!req.getTarga().equals(m.getTarga()) && macchinaR.existsByTarga(req.getTarga()))
-				throw new VeicoloException("veicolo.targa.duplicata");
+				throw new VeicoloException("targa.dup");
 			m.setTarga(req.getTarga());
 		}
 		veicoloR.save(m);
@@ -120,16 +125,17 @@ public class VeicoloServices implements IVeicoloServices {
 	@Transactional
 	public VeicoloDTO updateMoto(MotoReq req) throws VeicoloException {
 		Veicolo v = veicoloR.findById(req.getId())
-				.orElseThrow(() -> new VeicoloException("veicolo.non.trovato"));
-		if (!(v instanceof Moto mo)) throw new VeicoloException("veicolo.tipo.errato");
+				.orElseThrow(() -> new VeicoloException("veic.notfound"));
+		if (!(v instanceof Moto mo)) throw new VeicoloException("veic.tipo.err");
 		resolveLookupsUpdate(mo, req);
+		if (req.getRuote()<2 && req.getRuote() > 3) throw new VeicoloException("ruote.moto.inv");
 		if (req.getModello() != null)      mo.setModello(req.getModello());
 		if (req.getAnno() != null)         mo.setAnno(req.getAnno());
 		if (req.getRuote() != null)        mo.setRuote(req.getRuote());
 		if (req.getTipoForcella() != null) mo.setTipoForcella(req.getTipoForcella());
 		if (req.getTarga() != null) {
 			if (!req.getTarga().equals(mo.getTarga()) && motoR.existsByTarga(req.getTarga()))
-				throw new VeicoloException("veicolo.targa.duplicata");
+				throw new VeicoloException("targa.dup");
 			mo.setTarga(req.getTarga());
 		}
 		veicoloR.save(mo);
@@ -140,9 +146,10 @@ public class VeicoloServices implements IVeicoloServices {
 	@Transactional
 	public VeicoloDTO updateBici(BiciReq req) throws VeicoloException {
 		Veicolo v = veicoloR.findById(req.getId())
-				.orElseThrow(() -> new VeicoloException("veicolo.non.trovato"));
-		if (!(v instanceof Bici bi)) throw new VeicoloException("veicolo.tipo.errato");
+				.orElseThrow(() -> new VeicoloException("veic.notfound"));
+		if (!(v instanceof Bici bi)) throw new VeicoloException("veic.tipo.err");
 		resolveLookupsUpdate(bi, req);
+		if (!req.getRuote().equals(2)) throw new VeicoloException("ruote.bici.inv");
 		if (req.getModello() != null)     bi.setModello(req.getModello());
 		if (req.getAnno() != null)        bi.setAnno(req.getAnno());
 		if (req.getRuote() != null)       bi.setRuote(req.getRuote());
@@ -158,14 +165,14 @@ public class VeicoloServices implements IVeicoloServices {
 	@Transactional
 	public void delete(Integer id) throws VeicoloException {
 		Veicolo v = veicoloR.findById(id)
-				.orElseThrow(() -> new VeicoloException("veicolo.non.trovato"));
+				.orElseThrow(() -> new VeicoloException("veic.notfound"));
 		veicoloR.delete(v);
 	}
 
 	@Override
 	public VeicoloDTO getById(Integer id) throws VeicoloException {
 		return VeicoloMap.mapToDTO(veicoloR.findById(id)
-				.orElseThrow(() -> new VeicoloException("veicolo.non.trovato")));
+				.orElseThrow(() -> new VeicoloException("veic.notfound")));
 	}
 
 	@Override
@@ -193,14 +200,14 @@ public class VeicoloServices implements IVeicoloServices {
 	/** Risolve le descrizioni lookup in entità (creazione: tutte obbligatorie tranne colore). */
 	private void resolveLookups(Veicolo v, VeicoloReq req) throws VeicoloException {
 		v.setMarca(marcaR.findByDescrizioneIgnoreCase(req.getMarca())
-				.orElseThrow(() -> new VeicoloException("marca.non.trovata")));
+				.orElseThrow(() -> new VeicoloException("marca.notfound")));
 		v.setAlimentazione(alimentazioneR.findByDescrizioneIgnoreCase(req.getAlimentazione())
-				.orElseThrow(() -> new VeicoloException("alimentazione.non.trovata")));
+				.orElseThrow(() -> new VeicoloException("alim.notfound")));
 		v.setCategoria(categoriaR.findByDescrizioneIgnoreCase(req.getCategoria())
-				.orElseThrow(() -> new VeicoloException("categoria.non.trovata")));
+				.orElseThrow(() -> new VeicoloException("cat.notfound")));
 		if (req.getColore() != null) {
 			v.setColore(coloreR.findByDescrizioneIgnoreCase(req.getColore())
-					.orElseThrow(() -> new VeicoloException("colore.non.trovato")));
+					.orElseThrow(() -> new VeicoloException("col.notfound")));
 		}
 	}
 
@@ -208,15 +215,16 @@ public class VeicoloServices implements IVeicoloServices {
 	private void resolveLookupsUpdate(Veicolo v, VeicoloReq req) throws VeicoloException {
 		if (req.getMarca() != null)
 			v.setMarca(marcaR.findByDescrizioneIgnoreCase(req.getMarca())
-					.orElseThrow(() -> new VeicoloException("marca.non.trovata")));
+					.orElseThrow(() -> new VeicoloException("marca.notfound")));
 		if (req.getAlimentazione() != null)
 			v.setAlimentazione(alimentazioneR.findByDescrizioneIgnoreCase(req.getAlimentazione())
-					.orElseThrow(() -> new VeicoloException("alimentazione.non.trovata")));
+					.orElseThrow(() -> new VeicoloException("alim.notfound")));
 		if (req.getCategoria() != null)
 			v.setCategoria(categoriaR.findByDescrizioneIgnoreCase(req.getCategoria())
-					.orElseThrow(() -> new VeicoloException("categoria.non.trovata")));
+					.orElseThrow(() -> new VeicoloException("cat.notfound")));
 		if (req.getColore() != null)
 			v.setColore(coloreR.findByDescrizioneIgnoreCase(req.getColore())
-					.orElseThrow(() -> new VeicoloException("colore.non.trovato")));
+					.orElseThrow(() -> new VeicoloException("col.notfound")));
 	}
+
 }

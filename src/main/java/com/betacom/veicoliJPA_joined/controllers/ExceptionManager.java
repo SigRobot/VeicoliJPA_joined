@@ -32,7 +32,7 @@ public class ExceptionManager {
 		String code = e.getBindingResult().getFieldErrors().stream()
 				.findFirst()
 				.map(FieldError::getDefaultMessage)
-				.orElse("validazione.errore");
+				.orElse("valid.err");
 		return ResponseEntity.badRequest()
 				.body(ResponseDTO.builder().rc(false).msg(msgS.get(code)).build());
 	}
@@ -40,12 +40,12 @@ public class ExceptionManager {
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ResponseEntity<ResponseDTO> handleJsonNonValido(HttpMessageNotReadableException e) {
 		return ResponseEntity.badRequest()
-				.body(ResponseDTO.builder().rc(false).msg(msgS.get("json.non.valido")).build());
+				.body(ResponseDTO.builder().rc(false).msg(msgS.get("json.inv")).build());
 	}
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ResponseDTO> handleGenerico(Exception e) {
 		return ResponseEntity.badRequest()
-				.body(ResponseDTO.builder().rc(false).msg(msgS.get("errore.generico")).build());
+				.body(ResponseDTO.builder().rc(false).msg(msgS.get("err.generico")).build());
 	}
 }

@@ -1,9 +1,8 @@
 package com.betacom.veicoliJPA_joined.dto.input;
 
 
-import org.hibernate.sql.Update;
-
 import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Create;
+import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Update;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,28 +17,30 @@ import lombok.ToString;
 @ToString
 public abstract class VeicoloReq {
 
-	@NotNull(groups = Update.class, message = "veicolo.id.obbligatorio")
+	@NotNull(groups = Update.class, message = "id.req")
 	private Integer id;
 
-	@NotBlank(groups = Create.class, message = "veicolo.modello.obbligatorio")
+	@NotBlank(groups = Create.class, message = "modello.req")
 	private String modello;
 
-	@Min(value = 1900, message = "veicolo.anno.nonvalido")
-	@Max(value = 2100, message = "veicolo.anno.nonvalido")
+	@Min(value = 1900, message = "anno.inv")
+	@Max(value = 2100, message = "anno.inv")
 	private Integer anno;
 
 	// ruote: vincolo stretto nei figli, qui niente
-	@NotNull(groups = Create.class, message = "veicolo.ruote.obbligatorie")
+	@NotNull(groups = Create.class, message = "ruote.req")
+	@Min(value = 2, groups = {Create.class, Update.class}, message = "ruote.auto.inv")
+	@Max(value = 6, groups = {Create.class, Update.class}, message = "ruote.auto.inv")
 	private Integer ruote;
 
-	@NotBlank(groups = Create.class, message = "veicolo.marca.obbligatoria")
+	@NotBlank(groups = Create.class, message = "marca.req")
 	private String marca;
 
 	private String colore;   // opzionale
 
-	@NotBlank(groups = Create.class, message = "veicolo.alimentazione.obbligatoria")
+	@NotBlank(groups = Create.class, message = "alim.req")
 	private String alimentazione;
 
-	@NotBlank(groups = Create.class, message = "veicolo.categoria.obbligatoria")
+	@NotBlank(groups = Create.class, message = "cat.req")
 	private String categoria;
 }

@@ -23,4 +23,5 @@ public interface IVeicoloServices {
 	VeicoloDTO getById(Integer id) throws VeicoloException;
 	List<VeicoloDTO> listAll();
 	List<VeicoloDTO> search(VeicoloSearchReq req);
+	
 }

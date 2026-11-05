@@ -31,7 +31,7 @@ public class ColoreImpl implements IColoreServices {
 		String descr = pulisciDescrizione(req);
 
 		if (coloreR.findByDescrizioneIgnoreCase(descr).isPresent())
-			throw new VeicoloException("colore.esistente");
+			throw new VeicoloException("col.dup");
 
 		Colore c = ColoreMap.toEntity(req);
 		c.setDescrizione(descr);
@@ -66,7 +66,7 @@ public class ColoreImpl implements IColoreServices {
 
 		
 		if (veicoloR.existsByColoreId(id))
-			throw new VeicoloException("colore.in.uso");
+			throw new VeicoloException("col.inuso");
 
 		coloreR.delete(c);
 	}

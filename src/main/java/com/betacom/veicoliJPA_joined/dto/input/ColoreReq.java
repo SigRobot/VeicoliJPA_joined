@@ -13,7 +13,7 @@ public class ColoreReq {
 
 	private Integer id;
 
-	@NotBlank(message = "colore.descr.obbligatoria")
+	@NotBlank(message = "cat.desc.req")
 	@Size(max = 30, message = "colore.descr.troppo.lunga")
 	private String descrizione;
 }

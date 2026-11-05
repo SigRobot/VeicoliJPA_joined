@@ -1,6 +1,7 @@
 package com.betacom.veicoliJPA_joined.dto.input;
 
 import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Create;
+import com.betacom.veicoliJPA_joined.dto.input.ValidationGroup.Update;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -14,17 +15,13 @@ import lombok.ToString;
 @Setter
 @ToString
 public class MacchinaReq extends VeicoloReq{
-	@Min(value = 1900, message = "anno.non.valido", groups = { OnCreate.class, OnUpdate.class })
-	@Max(value = 2100, message = "anno.non.valido", groups = { OnCreate.class, OnUpdate.class })
-	private Integer anno;
-	@Min(value = 4, message = "ruote.non.valido", groups = {OnCreate.class, OnUpdate.class})
-	@Max(value = 6, message = "ruote.non.valido", groups = {OnCreate.class, OnUpdate.class})
-	private Integer ruote;
-	@Min(value = 3, message = "porte.non.valide", groups = {OnCreate.class, OnUpdate.class})
-	@Max(value = 5, message = "porte.non.valide", groups = {OnCreate.class, OnUpdate.class})
+	
+	
+	@Min(value = 3, message = "porte.inv", groups = {Create.class, Update.class})
+	@Max(value = 5, message = "porte.inv", groups = {Create.class, Update.class})
 	private Integer porte;
-	@NotBlank(groups = Create.class, message = "veicolo.targa.obbligatoria")
-	@Pattern(regexp = "^[A-Z]{2}[0-9]{3}[A-Z]{2}$", message = "veicolo.targa.auto.formato")
+	@NotBlank(groups = Create.class, message = "targa.req")
+	@Pattern(regexp = "^[A-Z]{2}[0-9]{3}[A-Z]{2}$", message = "targa.auto.fmt")
 	private String targa;
 
 }

@@ -1,5 +1,9 @@
 package com.betacom.veicoliJPA_joined.repositories;
 
-public interface IBiciRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.betacom.veicoliJPA_joined.models.Bici;
+
+public interface IBiciRepository extends JpaRepository<Bici, Integer>{
 
 }

@@ -1,6 +1,7 @@
 package com.betacom.veicoliJPA_joined.mapper;
 
 import com.betacom.veicoliJPA_joined.dto.output.VeicoloDTO;
+import com.betacom.veicoliJPA_joined.dto.output.VeicoloDTO.VeicoloDTOBuilder;
 import com.betacom.veicoliJPA_joined.models.Bici;
 import com.betacom.veicoliJPA_joined.models.Macchina;
 import com.betacom.veicoliJPA_joined.models.Moto;

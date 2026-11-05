@@ -14,8 +14,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class BiciReq extends VeicoloReq {
 
-	@Min(value = 1, message = "bici.marce.nonvalide")
-	@Max(value = 30, message = "bici.marce.nonvalide")
+	@Min(value = 1, message = "marce.inv")
+	@Max(value = 30, message = "marce.inv")
 	private Integer marce;
 
 	private Freno freno;
@@ -23,8 +23,4 @@ public class BiciReq extends VeicoloReq {
 	private Sospensione sospensione;
 
 	private Boolean pieghevole;
-
-	@Min(value = 2, message = "bici.ruote.nonvalide")
-	@Max(value = 2, message = "bici.ruote.nonvalide")
-	private Integer ruote;
 }

@@ -2,7 +2,6 @@ package com.betacom.veicoliJPA_joined.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,13 +23,16 @@ import com.betacom.veicoliJPA_joined.exceptions.VeicoloException;
 import com.betacom.veicoliJPA_joined.services.interfaces.IVeicoloServices;
 
 import jakarta.validation.groups.Default;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/veicoli")
 public class VeicoloController {
 
-	@Autowired
-	private IVeicoloServices veicoloS;
+	private final IVeicoloServices veicoloS;
 
 	@PostMapping("/macchina")
 	public VeicoloDTO createMacchina(@RequestBody @Validated({Create.class, Default.class}) MacchinaReq req) throws VeicoloException {
