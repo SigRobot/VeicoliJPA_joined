@@ -10,4 +10,5 @@ import com.betacom.veicoliJPA_joined.models.Veicolo;
 public interface IVeicoloRepository extends JpaRepository<Veicolo, Integer>, JpaSpecificationExecutor<Veicolo> {
 
 	boolean existsByColoreId(Integer coloreId);
+	boolean existsByMarcaId(Integer marcaId);
 }

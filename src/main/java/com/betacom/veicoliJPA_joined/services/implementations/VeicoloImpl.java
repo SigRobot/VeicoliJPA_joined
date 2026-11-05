@@ -1,7 +1,5 @@
 package com.betacom.veicoliJPA_joined.services.implementations;
 
-package com.betacom.jpa.services.implementations;
-
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,26 +9,27 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.betacom.jpa.dto.input.BiciReq;
-import com.betacom.jpa.dto.input.MacchinaReq;
-import com.betacom.jpa.dto.input.MotoReq;
-import com.betacom.jpa.dto.input.VeicoloReq;
-import com.betacom.jpa.dto.input.VeicoloSearchReq;
-import com.betacom.jpa.dto.output.VeicoloDTO;
-import com.betacom.jpa.exceptions.VeicoloException;
-import com.betacom.jpa.mapper.VeicoloMap;
-import com.betacom.jpa.models.Bici;
-import com.betacom.jpa.models.Macchina;
-import com.betacom.jpa.models.Moto;
-import com.betacom.jpa.models.Veicolo;
-import com.betacom.jpa.repositories.IAlimentazioneRepository;
-import com.betacom.jpa.repositories.ICategoriaRepository;
-import com.betacom.jpa.repositories.IColoreRepository;
-import com.betacom.jpa.repositories.IMacchinaRepository;
-import com.betacom.jpa.repositories.IMarcaRepository;
-import com.betacom.jpa.repositories.IMotoRepository;
-import com.betacom.jpa.repositories.IVeicoloRepository;
-import com.betacom.jpa.specifications.VeicoloSpecs;
+import com.betacom.veicoliJPA_joined.dto.input.BiciReq;
+import com.betacom.veicoliJPA_joined.dto.input.MacchinaReq;
+import com.betacom.veicoliJPA_joined.dto.input.MotoReq;
+import com.betacom.veicoliJPA_joined.dto.input.VeicoloReq;
+import com.betacom.veicoliJPA_joined.dto.input.VeicoloSearchReq;
+import com.betacom.veicoliJPA_joined.dto.output.VeicoloDTO;
+import com.betacom.veicoliJPA_joined.exceptions.VeicoloException;
+import com.betacom.veicoliJPA_joined.mapper.VeicoloMap;
+import com.betacom.veicoliJPA_joined.models.Bici;
+import com.betacom.veicoliJPA_joined.models.Macchina;
+import com.betacom.veicoliJPA_joined.models.Moto;
+import com.betacom.veicoliJPA_joined.models.Veicolo;
+import com.betacom.veicoliJPA_joined.repositories.IAlimentazioneRepository;
+import com.betacom.veicoliJPA_joined.repositories.ICategoriaRepository;
+import com.betacom.veicoliJPA_joined.repositories.IColoreRepository;
+import com.betacom.veicoliJPA_joined.repositories.IMacchinaRepository;
+import com.betacom.veicoliJPA_joined.repositories.IMarcaRepository;
+import com.betacom.veicoliJPA_joined.repositories.IMotoRepository;
+import com.betacom.veicoliJPA_joined.repositories.IVeicoloRepository;
+import com.betacom.veicoliJPA_joined.services.interfaces.IVeicoloServices;
+import com.betacom.veicoliJPA_joined.specifications.VeicoloSpecs;
 
 @Service
 public class VeicoloImpl implements IVeicoloServices {
